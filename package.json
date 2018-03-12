@@ -4,6 +4,7 @@
   "version": "0.1",
   "dependencies": {},
   "scripts": {
+    "install": "node-gyp rebuild",
     "rebuild": "node-gyp rebuild",
     "configure": "node-gyp configure",
     "clean": "node-gyp clean",
