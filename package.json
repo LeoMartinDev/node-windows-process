@@ -8,10 +8,12 @@
     "windows",
     "process"
   ],
+  "description": "Cpp bindings for .NET System::Diagnostics::Process",
   "author": "LeoMartinDev",
   "license": "ISC",
   "dependencies": {},
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node-gyp rebuild",
     "rebuild": "node-gyp rebuild",
     "configure": "node-gyp configure",
