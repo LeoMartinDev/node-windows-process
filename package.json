@@ -11,7 +11,10 @@
   "description": "Cpp bindings for .NET System::Diagnostics::Process",
   "author": "LeoMartinDev",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "nan": "^2.6.1",
+    "bindings": "^1.3.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node-gyp rebuild",
@@ -27,10 +30,8 @@
   },
   "gypfile": true,
   "devDependencies": {
-    "bindings": "^1.3.0",
     "electron-rebuild": "^1.7.3",
     "electron": "^1.8.3",
-    "nan": "^2.6.1",
     "node-gyp": "^3.6.0"
   }
 }
