@@ -1,0 +1,60 @@
+//
+// Created by leoma on 02/03/2018.
+//
+
+#include "Process.cpp"
+
+namespace AukSwitcher {
+
+    Process::Process(IntPtr handle) {
+        this->handle = handle;
+    }
+
+    Process::~Process() {}
+
+    Nan::Persistent<v8::FunctionTemplate> Process::constructor;
+
+    NAN_MODULE_INIT(Process::Init) {
+        v8::Local <v8::FunctionTemplate> ctor = Nan::New<v8::FunctionTemplate>(Process::New);
+        constructor.Reset(ctor);
+
+        ctor->InstanceTemplate()->SetInternalFieldCount(1);
+        ctor->SetClassName(Nan::New("Process").ToLocalChecked());
+
+        // link our getters and setter to the object property
+        Nan::SetAccessor(ctor->InstanceTemplate(), Nan::New("id").ToLocalChecked(), Process::HandleGetters, nullptr);
+
+        target->Set(Nan::New("Process").ToLocalChecked(), ctor->GetFunction());
+    }
+
+    NAN_METHOD(Process::New) {
+        if (info.IsConstructCall()) {
+            Process *obj = new Process((IntPtr)info[0]);
+            obj->Wrap(info.Holder());
+            info.GetReturnValue().Set(info.Holder());
+        } else {
+            const int argc = 1;
+            v8::Local<v8::Value> argv[argc] = {info[0]};
+            v8::Local<v8::Function> cons = Nan::New(constructor);
+            info.GetReturnValue().Set(cons->NewInstance(argc, argv));
+        }
+    }
+
+/*    v8::Local<v8::Object> Process::Factory() {
+        Nan::EscapableHandleScope scope;
+        v8::Local <v8::Function> cons = Nan::New(Process::constructor)->GetFunction();
+
+        v8::Local<v8::Object> instance = cons->NewInstance(0, nullptr);
+        return scope.Escape(instance);
+    }*/
+
+    NAN_GETTER(Process::HandleGetters) {
+        Process *self = Nan::ObjectWrap::Unwrap<Process>(info.This());
+        std::string propertyName = std::string(*Nan::Utf8String(property));
+
+        if (propertyName == "id") {
+            info.GetReturnValue().Set(self->id);
+        }
+    }
+
+}
