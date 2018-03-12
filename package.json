@@ -1,5 +1,5 @@
 {
-  "name": "node-windows-process",
+  "name": "windows-process",
   "main": "index.js",
   "version": "0.1",
   "dependencies": {},
