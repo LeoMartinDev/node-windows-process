@@ -1,5 +1,5 @@
 {
-  "name": "node-native-addons-example",
+  "name": "node-windows-process",
   "main": "index.js",
   "version": "0.1",
   "dependencies": {},
