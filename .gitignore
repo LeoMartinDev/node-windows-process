@@ -66,5 +66,7 @@ prebuilds/
 /.idea
 /srcBackup
 
+/bin
+
 
 # End of https://www.gitignore.io/api/node
