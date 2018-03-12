@@ -2,6 +2,14 @@
   "name": "windows-process",
   "main": "index.js",
   "version": "0.1",
+  "keywords": [
+    "node",
+    "native",
+    "windows",
+    "process"
+  ],
+  "author": "LeoMartinDev",
+  "license": "ISC",
   "dependencies": {},
   "scripts": {
     "install": "node-gyp rebuild",
