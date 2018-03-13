@@ -213,7 +213,7 @@ NAN_METHOD(Process::setToForeground) {
     } */
     HWND hWnd = (HWND) obj->mainWindowHandle();
 
-    if(hWnd == NULL && !IsWindow(hWnd)) info.GetReturnValue().Set(Nan::New(false));
+    if(!IsWindow(hWnd)) info.GetReturnValue().Set(Nan::New(false));
 
     BYTE keyState[256] = {0};
     //to unlock SetForegroundWindow we need to imitate Alt pressing
