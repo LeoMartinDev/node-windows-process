@@ -198,7 +198,7 @@ NAN_METHOD(Process::New) {
 NAN_METHOD(Process::setToForeground) {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
     HWND hWnd = (HWND) obj->_mainWindowHandle;
-    if(!IsWindow(hWnd)) return;
+    if(!IsWindow(hWnd)) info.GetReturnValue().Set(Nan::New(false));;
 
     BYTE keyState[256] = {0};
     //to unlock SetForegroundWindow we need to imitate Alt pressing
@@ -217,6 +217,7 @@ NAN_METHOD(Process::setToForeground) {
             keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         }
     }
+    info.GetReturnValue().Set(Nan::New(true));
 };
 
 NAN_METHOD(Process::terminate) {

@@ -52,3 +52,5 @@ function getProcessByIdAsync(id) {
 function terminateProcessById(id) {
   return addon.terminateProcessById(id);
 }
+
+getProcessesByNameAsync("Dofus").then(console.log)

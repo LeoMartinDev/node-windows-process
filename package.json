@@ -21,7 +21,7 @@
     "rebuild": "node-gyp rebuild",
     "configure": "node-gyp configure",
     "clean": "node-gyp clean",
-    "node-gyp:build": "node-gyp build --target=1.8.3 --target_platform=win32 --arch=x64 --dist-url=https://atom.io/download/electron --msvs_version=2017",
+    "node-gyp:build": "node-gyp build --target_platform=win32 --arch=x64 --msvs_version=2017",
     "node-gyp:configure": "./node_modules/.bin/node-gyp configure",
     "node-gyp:rebuild": "./node_modules/.bin/node-gyp rebuild --target=1.8.3 --target_platform=win32 --arch=x64 --dist-url=https://atom.io/download/electron --msvs_version=2017",
     "electron:rebuild": "./node_modules/.bin/electron-rebuild",
