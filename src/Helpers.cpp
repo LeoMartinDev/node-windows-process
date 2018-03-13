@@ -8,14 +8,19 @@ namespace Helpers {
         std::vector <RawProcess*>* processesVector = new std::vector<RawProcess*>();
 
         for (unsigned int i = 0; i < processesArray->Length; i++) {
-            std::string mainWindowTitle = msclr::interop::marshal_as<std::string>(processesArray[i]->MainWindowTitle);
-            RawProcess* result = new RawProcess({
-                    processesArray[i]->Handle.ToInt32(),
-                    processesArray[i]->Id,
-                    mainWindowTitle,
-                    processesArray[i]->MainWindowHandle.ToInt32(),
-            });
-            processesVector->push_back(result);
+            try {
+                std::string mainWindowTitle = msclr::interop::marshal_as<std::string>(processesArray[i]->MainWindowTitle);
+                RawProcess* result = new RawProcess({
+                        processesArray[i]->Handle.ToInt32(),
+                        processesArray[i]->Id,
+                        mainWindowTitle,
+                        processesArray[i]->MainWindowHandle.ToInt32(),
+                });
+                processesVector->push_back(result);
+            } catch (InvalidOperationException^ error) {
+                
+            }
+
         }
         return processesVector;
     }
@@ -48,6 +53,8 @@ namespace Helpers {
             return result;
         } catch (ArgumentException^error) {
             throw std::invalid_argument("Cannot find process for id " + std::to_string(id));
+        } catch (InvalidOperationException^ error) {
+            throw std::range_error("Process has been closed during access!");
         }
     }
 }//
