@@ -28,7 +28,7 @@ public:
     static NAN_METHOD(GetByNameAsync);
     static NAN_METHOD(GetById);
     static NAN_METHOD(GetByIdAsync);
-    static NAN_METHOD(TerminateProcessById);
+    static NAN_METHOD(TerminateById);
 
     static NAN_GETTER(HandleGetters);
 

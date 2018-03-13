@@ -91,7 +91,7 @@ NAN_METHOD(Process::GetById) {
         ));
   };
 
-NAN_METHOD(Process::TerminateProcessById) {
+NAN_METHOD(Process::TerminateById) {
     if (!info[0]->IsNumber()) {
         return Nan::ThrowError(Nan::New("Process::GetById - id must be a number!").ToLocalChecked());
     }
@@ -99,10 +99,8 @@ NAN_METHOD(Process::TerminateProcessById) {
     HANDLE handle = OpenProcess(PROCESS_TERMINATE, false, id);
     v8::Local <v8::Function> cons = Nan::New(constructor);
 
-    if (handle != NULL) {
-        TerminateProcess(handle, 0);
-        CloseHandle(handle);
-    }
+    TerminateProcess(handle, 0);
+    CloseHandle(handle);
     info.GetReturnValue().Set(Nan::Undefined());
 };
 
@@ -239,10 +237,8 @@ NAN_METHOD(Process::terminate) {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
     HANDLE handle = obj->handle();
     
-    if (handle != NULL) {
-        TerminateProcess(handle, 0);
-        CloseHandle(handle);
-    }
+    TerminateProcess(handle, 0);
+    CloseHandle(handle);
     info.GetReturnValue().Set(Nan::Undefined());
 };
 
@@ -271,7 +267,7 @@ NAN_MODULE_INIT(Init) {
     Nan::Set(target,
              Nan::New<v8::String>("terminateProcessById").ToLocalChecked(),
              Nan::GetFunction(
-                     Nan::New<v8::FunctionTemplate>(Process::TerminateProcessById)).ToLocalChecked()
+                     Nan::New<v8::FunctionTemplate>(Process::TerminateById)).ToLocalChecked()
     );
     Nan::Set(target,
              Nan::New<v8::String>("getProcessesByName").ToLocalChecked(),
