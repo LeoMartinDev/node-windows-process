@@ -32,7 +32,7 @@ public:
 
     static NAN_GETTER(HandleGetters);
 
-    inline HANDLE handle() const;
+    inline int handle() const;
     inline int id() const;
     inline std::string mainWindowTitle() const;
     inline int mainWindowHandle() const;

@@ -97,11 +97,16 @@ NAN_METHOD(Process::TerminateById) {
     }
     int id = info[0]->NumberValue();
     HANDLE handle = OpenProcess(PROCESS_TERMINATE, false, id);
-    v8::Local <v8::Function> cons = Nan::New(constructor);
+    BOOLEAN success = false;
 
-    TerminateProcess(handle, 0);
-    CloseHandle(handle);
-    info.GetReturnValue().Set(Nan::Undefined());
+    if (handle == NULL) {
+        info.GetReturnValue().Set(Nan::New(success));
+    } else {
+        success = TerminateProcess(handle, 0);
+        CloseHandle(handle);
+        info.GetReturnValue().Set(Nan::New(success));
+    }
+    
 };
 
 NAN_METHOD(Process::GetCurrentAsync) {
@@ -143,8 +148,8 @@ NAN_GETTER(Process::HandleGetters) {
     }
 };
 
-HANDLE Process::handle() const {
-    return OpenProcess(PROCESS_ALL_ACCESS, false, _id);
+int Process::handle() const {
+    return _handle;
 }
 
 int Process::id() const {
@@ -235,11 +240,17 @@ NAN_METHOD(Process::setToForeground) {
 
 NAN_METHOD(Process::terminate) {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
-    HANDLE handle = obj->handle();
+    HANDLE handle = OpenProcess(PROCESS_TERMINATE, false, obj->id());
+    BOOLEAN success = false;
+
+    if (handle == NULL) {
+        info.GetReturnValue().Set(Nan::New(success));
+    } else {
+        success = TerminateProcess(handle, 0);
+        CloseHandle(handle);
+        info.GetReturnValue().Set(Nan::New(success));
+    }
     
-    TerminateProcess(handle, 0);
-    CloseHandle(handle);
-    info.GetReturnValue().Set(Nan::Undefined());
 };
 
 NAN_MODULE_INIT(Init) {
