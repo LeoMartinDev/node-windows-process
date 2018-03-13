@@ -195,7 +195,7 @@ NAN_METHOD(Process::New) {
 
 NAN_METHOD(Process::setToForeground) {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
-    HWND hWnd = (HWND)obj->mainWindowHandle();
+    HWND hWnd = (HWND)obj->_mainWindowHandle;
 
     if (hWnd == NULL || !IsWindow(hWnd)) {
         info.GetReturnValue().Set(Nan::New(false));
