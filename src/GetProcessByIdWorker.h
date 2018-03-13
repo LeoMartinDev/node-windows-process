@@ -11,7 +11,7 @@
 #include "Helpers.h"
 #include "Process.h"
 
-#pragma managed;
+#pragma managed
 
 class GetProcessByIdWorker : public Nan::AsyncWorker {
 public:

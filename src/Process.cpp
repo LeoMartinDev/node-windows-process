@@ -195,12 +195,12 @@ NAN_METHOD(Process::New) {
 
 NAN_METHOD(Process::setToForeground) {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
-    HWND hWnd = (HWND) obj->mainWindowHandle();
+    HWND hWnd = (HWND)obj->mainWindowHandle();
 
     if (hWnd == NULL || !IsWindow(hWnd)) {
         info.GetReturnValue().Set(Nan::New(false));
     } else {
-        SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+        SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
         info.GetReturnValue().Set(Nan::New(true));
     }
 /*     HWND hWnd = (HWND) obj->mainWindowHandle();
