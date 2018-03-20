@@ -8,6 +8,7 @@
       "sources": [
         "src/Process.cpp",
         "src/GetCurrentProcessWorker.cpp",
+        "src/SetToForegroundWorker.cpp",
         "src/GetProcessesByNameWorker.cpp",
         "src/GetProcessByIdWorker.cpp",
         "src/Helpers.cpp"

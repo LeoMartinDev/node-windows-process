@@ -13,6 +13,7 @@
 #include "GetCurrentProcessWorker.h"
 #include "GetProcessesByNameWorker.h"
 #include "GetProcessByIdWorker.h"
+#include "SetToForegroundWorker.h"
 #include "Helpers.h"
 
 #pragma unmanaged

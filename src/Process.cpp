@@ -8,6 +8,7 @@ NAN_MODULE_INIT(Process::Init)
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
     Nan::SetPrototypeMethod(tpl, "setToForeground", setToForeground);
+    Nan::SetPrototypeMethod(tpl, "setToForegroundAsync", setToForegroundAsync);
     Nan::SetPrototypeMethod(tpl, "terminate", terminate);
 
     Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("id").ToLocalChecked(), Process::HandleGetters);
@@ -231,7 +232,7 @@ NAN_METHOD(Process::New)
 NAN_METHOD(Process::setToForeground)
 {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
-    HWND hwnd = (HWND)obj->_mainWindowHandle;
+    /*     HWND hwnd = (HWND)obj->_mainWindowHandle;
     DWORD dwCurrentThread = GetCurrentThreadId();
     DWORD dwFGThread = GetWindowThreadProcessId(GetForegroundWindow(), NULL);
 
@@ -244,7 +245,7 @@ NAN_METHOD(Process::setToForeground)
     SetActiveWindow(hwnd);
     EnableWindow(hwnd, TRUE);
 
-    AttachThreadInput(dwCurrentThread, dwFGThread, FALSE);
+    AttachThreadInput(dwCurrentThread, dwFGThread, FALSE); */
     /*     HWND hWnd = (HWND)obj->_mainWindowHandle;
 
     if (hWnd == NULL || !IsWindow(hWnd)) {
@@ -271,32 +272,39 @@ NAN_METHOD(Process::setToForeground)
         SetWindowPos(hWnd, HWND_TOP, 0, 0, 0, 0, SWP_SHOWWINDOW|SWP_NOMOVE|SWP_NOSIZE);
         info.GetReturnValue().Set(Nan::New(true));
     } */
-    /*     HWND hWnd = (HWND) obj->mainWindowHandle();
+    HWND hWnd = (HWND)obj->mainWindowHandle();
 
-    if(!IsWindow(hWnd)) info.GetReturnValue().Set(Nan::New(false));
+    if (!IsWindow(hWnd))
+        info.GetReturnValue().Set(Nan::New(false));
 
     BYTE keyState[256] = {0};
     //to unlock SetForegroundWindow we need to imitate Alt pressing
-    if(GetKeyboardState((LPBYTE)&keyState))
+    if (GetKeyboardState((LPBYTE)&keyState))
     {
-        if(!(keyState[VK_MENU] & 0x80))
+        if (!(keyState[VK_MENU] & 0x80))
         {
             keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | 0, 0);
         }
     }
     SetForegroundWindow(hWnd);
-    if(GetKeyboardState((LPBYTE)&keyState))
+    if (GetKeyboardState((LPBYTE)&keyState))
     {
-        if(!(keyState[VK_MENU] & 0x80))
+        if (!(keyState[VK_MENU] & 0x80))
         {
             keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         }
-    } */
+    }
     info.GetReturnValue().Set(Nan::New(true));
 };
 
 NAN_METHOD(Process::setToForegroundAsync)
 {
+    Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
+
+    Nan::AsyncQueueWorker(new SetToForegroundWorker(
+        new Nan::Callback(info[1].As<v8::Function>()),
+        (HWND)obj->mainWindowHandle())
+    );
 }
 
 NAN_METHOD(Process::terminate)
