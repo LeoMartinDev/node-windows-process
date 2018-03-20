@@ -45,6 +45,7 @@ private:
 
     static NAN_METHOD(New);
     static NAN_METHOD(setToForeground);
+    static NAN_METHOD(setToForegroundAsync);
     static NAN_METHOD(terminate);
 
     int _handle;

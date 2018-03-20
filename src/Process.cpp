@@ -206,15 +206,15 @@ NAN_METHOD(Process::setToForeground) {
         SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
         info.GetReturnValue().Set(Nan::New(true));
     } */
-/*     HWND hWnd = (HWND) obj->mainWindowHandle();
+    HWND hWnd = (HWND) obj->mainWindowHandle();
 
     if (hWnd == NULL || !IsWindow(hWnd)) {
         info.GetReturnValue().Set(Nan::New(false));
     } else {
         SwitchToThisWindow(hWnd, true);
         info.GetReturnValue().Set(Nan::New(true));
-    } */
-    HWND hWnd = (HWND) obj->mainWindowHandle();
+    }
+/*     HWND hWnd = (HWND) obj->mainWindowHandle();
 
     if(!IsWindow(hWnd)) info.GetReturnValue().Set(Nan::New(false));
 
@@ -234,9 +234,13 @@ NAN_METHOD(Process::setToForeground) {
         {
             keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         }
-    }
+    } */
     info.GetReturnValue().Set(Nan::New(true));
 };
+
+NAN_METHOD(Process::setToForegroundAsync) {
+
+}
 
 NAN_METHOD(Process::terminate) {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
