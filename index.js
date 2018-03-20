@@ -8,6 +8,7 @@ module.exports = {
   getProcessById,
   getProcessByIdAsync,
   terminateProcessById,
+  setToForegroundAsync,
 };
 
 function getProcessesByName(name) {
@@ -53,4 +54,11 @@ function terminateProcessById(id) {
   return addon.terminateProcessById(id);
 }
 
-getProcessesByNameAsync("Dofus").then(console.log)
+function setToForegroundAsync(hwmd) {
+  return new Promise((resolve, reject) => {
+    addon.setToForegroundAsync(hwmd, function (error, result) {
+      if (error) return reject(error);
+      return resolve(result);
+    });
+  });
+}

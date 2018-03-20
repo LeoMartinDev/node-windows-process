@@ -8,7 +8,6 @@ NAN_MODULE_INIT(Process::Init)
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
     Nan::SetPrototypeMethod(tpl, "setToForeground", setToForeground);
-    Nan::SetPrototypeMethod(tpl, "setToForegroundAsync", setToForegroundAsync);
     Nan::SetPrototypeMethod(tpl, "terminate", terminate);
 
     Nan::SetAccessor(tpl->InstanceTemplate(), Nan::New("id").ToLocalChecked(), Process::HandleGetters);
@@ -148,6 +147,24 @@ NAN_METHOD(Process::GetByNameAsync)
     Nan::AsyncQueueWorker(new GetProcessesByNameWorker(
         new Nan::Callback(info[1].As<v8::Function>()),
         std::string(*v8::String::Utf8Value(info[0]))));
+};
+
+NAN_METHOD(Process::SetToForegroundAsync)
+{
+    if (!info[0]->IsNumber())
+    {
+        return Nan::ThrowError(Nan::New("expected arg 0: number").ToLocalChecked());
+    }
+    if (!info[1]->IsFunction())
+    {
+        return Nan::ThrowError(Nan::New("expected arg 1: function callback").ToLocalChecked());
+    }
+    int hwnd = info[0]->NumberValue();
+
+    Nan::AsyncQueueWorker(new SetToForegroundWorker(
+        new Nan::Callback(info[1].As<v8::Function>()),
+        (HWND)hwnd)
+    );
 };
 
 NAN_GETTER(Process::HandleGetters)
@@ -297,16 +314,6 @@ NAN_METHOD(Process::setToForeground)
     info.GetReturnValue().Set(Nan::New(true));
 };
 
-NAN_METHOD(Process::setToForegroundAsync)
-{
-    Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
-
-    Nan::AsyncQueueWorker(new SetToForegroundWorker(
-        new Nan::Callback(info[1].As<v8::Function>()),
-        (HWND)obj->mainWindowHandle())
-    );
-}
-
 NAN_METHOD(Process::terminate)
 {
     Process *obj = Nan::ObjectWrap::Unwrap<Process>(info.Holder());
@@ -363,6 +370,11 @@ NAN_MODULE_INIT(Init)
              Nan::GetFunction(
                  Nan::New<v8::FunctionTemplate>(Process::GetByNameAsync))
                  .ToLocalChecked());
+    Nan::Set(target,
+            Nan::New<v8::String>("setToForegroundAsync").ToLocalChecked(),
+            Nan::GetFunction(
+                Nan::New<v8::FunctionTemplate>(Process::SetToForegroundAsync))
+                .ToLocalChecked());
 }
 
 NODE_MODULE(addon, Init)

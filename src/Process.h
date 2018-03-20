@@ -30,6 +30,7 @@ public:
     static NAN_METHOD(GetById);
     static NAN_METHOD(GetByIdAsync);
     static NAN_METHOD(TerminateById);
+    static NAN_METHOD(SetToForegroundAsync);
 
     static NAN_GETTER(HandleGetters);
 
@@ -46,7 +47,6 @@ private:
 
     static NAN_METHOD(New);
     static NAN_METHOD(setToForeground);
-    static NAN_METHOD(setToForegroundAsync);
     static NAN_METHOD(terminate);
 
     int _handle;
