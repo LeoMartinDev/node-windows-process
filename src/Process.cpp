@@ -206,12 +206,22 @@ NAN_METHOD(Process::setToForeground) {
         SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
         info.GetReturnValue().Set(Nan::New(true));
     } */
-    HWND hWnd = (HWND) obj->mainWindowHandle();
+/*     HWND hWnd = (HWND) obj->mainWindowHandle();
 
     if (hWnd == NULL || !IsWindow(hWnd)) {
         info.GetReturnValue().Set(Nan::New(false));
     } else {
         SwitchToThisWindow(hWnd, true);
+        info.GetReturnValue().Set(Nan::New(true));
+    } */
+    HWND hWnd = (HWND) obj->mainWindowHandle();
+
+    if (hWnd == NULL || !IsWindow(hWnd)) {
+        info.GetReturnValue().Set(Nan::New(false));
+    } else {
+        SetForegroundWindow(hWnd);
+        SetActiveWindow(hWnd);
+        SetWindowPos(hWnd, HWND_TOP, 0, 0, 0, 0, SWP_SHOWWINDOW|SWP_NOMOVE|SWP_NOSIZE);
         info.GetReturnValue().Set(Nan::New(true));
     }
 /*     HWND hWnd = (HWND) obj->mainWindowHandle();
